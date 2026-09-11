@@ -1,5 +1,3 @@
-
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -99,7 +97,7 @@ main h3 {
     text-align: center;
     padding: 3rem 1.5rem;
     border-radius: 8px;
-    margin: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .hero h2 {
@@ -113,7 +111,7 @@ main h3 {
     margin: 0 auto 1.5rem;
 }
 
-/* ---------- Botones ---------- */
+
 
 .btn,
 .btn-card,
@@ -126,6 +124,7 @@ button {
     border-radius: 5px;
     font-weight: 600;
     cursor: pointer;
+    text-align: center;
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
@@ -142,7 +141,7 @@ button:hover {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.5rem;
-    margin: 1.5rem;
+    margin-top: 1.5rem;
 }
 
 .card {
@@ -153,10 +152,16 @@ button:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 0.5rem;
 }
 
-.card img {
+
+.card img, 
+.grid-productos img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
     border-radius: 6px;
     margin: 0 auto 0.5rem;
 }
@@ -172,7 +177,7 @@ button:hover {
     font-size: 1.1rem;
 }
 
-/* ---------- Detalle de producto ---------- */
+
 
 .detalle-grid {
     display: grid;
@@ -188,6 +193,9 @@ button:hover {
 
 .detalle-grid img {
     border-radius: 8px;
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
 }
 
 .detalle-grid .info h2 {
@@ -224,6 +232,9 @@ button:hover {
 article img {
     border-radius: 8px;
     margin: 1rem 0;
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
 }
 
 
@@ -280,7 +291,7 @@ form textarea:focus {
 }
 
 form .btn {
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
 }
 
 .error-message {
@@ -296,7 +307,7 @@ form .btn {
     background-color: #fdf0ee;
 }
 
-/* ---------- Nosotros ---------- */
+
 
 main section {
     margin-bottom: 1.5rem;
@@ -313,7 +324,7 @@ footer {
     background-color: #2b2b2b;
     color: #ddd;
     text-align: center;
-    padding: 1.2rem;
+    padding: 1.5rem;
     margin-top: 2rem;
     font-size: 0.9rem;
 }
@@ -342,6 +353,6 @@ footer button {
     }
 
     .grid-productos {
-        margin: 1rem 0.5rem;
+        margin: 1rem 0;
     }
 }
