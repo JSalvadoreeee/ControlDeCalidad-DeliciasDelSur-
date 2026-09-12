@@ -19,34 +19,29 @@
             </ul>
         </nav>
         <div class="user-actions">
-            <a href="login.html">Iniciar sesión</a> | <a href="carro.html">Carro (0)</a>
+            <a href="login.html">Iniciar sesión</a> | <a href="carrito.html">Carro (0)</a>
         </div>
     </header>
 
     <main class="container">
         <h2>Registro de Nuevo Cliente</h2>
         <form id="form-registro" novalidate>
-            <!-- RUN / RUT -->
             <label for="run">RUN / RUT:</label>
-            <input type="text" id="run" name="run" required placeholder="12345678-K">
+            <input type="text" id="run" name="run" required placeholder="Ingrese su RUN">
             <span class="error-message" id="error-run"></span>
 
-            <!-- Nombre Completo -->
             <label for="nombre">Nombre Completo:</label>
-            <input type="text" id="nombre" name="nombre" required placeholder="Juan Pérez">
+            <input type="text" id="nombre" name="nombre" required placeholder="Ingrese nombre y apellido">
             <span class="error-message" id="error-nombre"></span>
 
-            <!-- Correo Electrónico -->
             <label for="correo">Correo Electrónico:</label>
-            <input type="email" id="correo" name="correo" required placeholder="cliente@ejemplo.cl">
+            <input type="email" id="correo" name="correo" required placeholder="Ingrese su correo">
             <span class="error-message" id="error-correo"></span>
 
-            <!-- Contraseña -->
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password" required minlength="8" placeholder="Mínimo 8 caracteres">
             <span class="error-message" id="error-password"></span>
 
-            <!-- Región -->
             <label for="region">Región de Despacho:</label>
             <select id="region" name="region" required>
                 <option value="">-- Seleccione una región --</option>
@@ -55,12 +50,9 @@
             </select>
             <span class="error-message" id="error-region"></span>
 
-            <!-- Comuna -->
             <label for="comuna">Comuna:</label>
             <select id="comuna" name="comuna" required>
                 <option value="">-- Seleccione una comuna --</option>
-                
-                <!-- Comunas Región Metropolitana -->
                 <optgroup label="Región Metropolitana">
                     <option value="san_bernardo">San Bernardo</option>
                     <option value="santiago">Santiago Centro</option>
@@ -70,8 +62,6 @@
                     <option value="puente_alto">Puente Alto</option>
                     <option value="el_bosque">El Bosque</option>
                 </optgroup>
-
-                <!-- Comunas Región de O'Higgins -->
                 <optgroup label="Región de O'Higgins">
                     <option value="san_fernando">San Fernando</option>
                     <option value="rancagua">Rancagua</option>
@@ -83,7 +73,6 @@
             </select>
             <span class="error-message" id="error-comuna"></span>
 
-            <!-- Botón de Envío -->
             <button type="submit" class="btn">Registrar Usuario</button>
 
             <p style="margin-top: 1rem; text-align: center;">

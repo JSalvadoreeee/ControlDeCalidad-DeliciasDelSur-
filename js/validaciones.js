@@ -1,15 +1,15 @@
-
-// Validaciones de formularios: login, registro y contacto
+// Validaciones de formularios: login, registro, contacto y panel de administración
 
 document.addEventListener("DOMContentLoaded", () => {
     const formLogin = document.getElementById("form-login");
     const formRegistro = document.getElementById("form-registro");
     const formContacto = document.getElementById("form-contacto");
-    
+
     // Formularios de Administración
     const formLote = document.getElementById("form-lote");
     const formDevolucion = document.getElementById("form-devolucion");
 
+    // Se conecta cada formulario con su función de validación al enviarlo (submit)
     if (formLogin) formLogin.addEventListener("submit", validarLogin);
     if (formRegistro) formRegistro.addEventListener("submit", validarRegistro);
     if (formContacto) formContacto.addEventListener("submit", validarContacto);
@@ -17,8 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (formDevolucion) formDevolucion.addEventListener("submit", validarFormDevolucion);
 });
 
-//Utilidades 
+// ===================== Utilidades =====================
 
+// Muestra un mensaje de error bajo el campo (usa el <span id="error-idCampo">)
+// y le agrega la clase CSS "input-error" al input para marcarlo en rojo
 function mostrarError(idCampo, mensaje) {
     const span = document.getElementById("error-" + idCampo);
     if (span) span.textContent = mensaje;
@@ -26,6 +28,8 @@ function mostrarError(idCampo, mensaje) {
     if (input) input.classList.add("input-error");
 }
 
+// Limpia el mensaje de error y le saca la marca roja al campo
+// (se llama al inicio de cada validación, antes de revisar de nuevo)
 function limpiarError(idCampo) {
     const span = document.getElementById("error-" + idCampo);
     if (span) span.textContent = "";
@@ -33,38 +37,52 @@ function limpiarError(idCampo) {
     if (input) input.classList.remove("input-error");
 }
 
+// Valida formato de correo de forma estricta:
+// - usuario: letras/números y . _ % + - (sin empezar o terminar con esos símbolos)
+// - dominio: letras/números, puede tener puntos o guiones intermedios
+// - termina en un punto + mínimo 2 letras (ej: .cl, .com)
+// Esto rechaza casos como "k.@ja" o "ss@jd.f" que con un regex más simple pasarían
 function esCorreoValido(correo) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const regex = /^[a-zA-Z0-9]+([._%+-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
     return regex.test(correo);
 }
 
+// Valida un RUT/RUN chileno completo (no solo el formato, también el dígito verificador real)
 function validarRun(run) {
-    // Limpia puntos y guión, deja el cuerpo y el dígito verificador
+    // 1) Limpia puntos y guión, y pasa la K a mayúscula, para trabajar siempre igual
     const limpio = run.replace(/\./g, "").replace(/-/g, "").toUpperCase();
+
+    // 2) Revisa que sean solo números y que termine en número o "K"
     if (!/^[0-9]+[0-9K]$/.test(limpio)) return false;
 
+    // 3) Separa el cuerpo (números) del dígito verificador (último carácter)
     const cuerpo = limpio.slice(0, -1);
     const dv = limpio.slice(-1);
 
+    // 4) Algoritmo módulo 11: multiplica cada dígito (de derecha a izquierda)
+    //    por una secuencia que va de 2 a 7 y se repite
     let suma = 0;
     let multiplo = 2;
     for (let i = cuerpo.length - 1; i >= 0; i--) {
         suma += parseInt(cuerpo[i], 10) * multiplo;
         multiplo = multiplo === 7 ? 2 : multiplo + 1;
     }
+
+    // 5) Calcula el dígito verificador esperado según el resultado de la suma
     const resto = 11 - (suma % 11);
     let dvEsperado;
     if (resto === 11) dvEsperado = "0";
     else if (resto === 10) dvEsperado = "K";
     else dvEsperado = String(resto);
 
+    // 6) Compara el dígito verificador ingresado contra el calculado
     return dv === dvEsperado;
 }
 
-//Logueo
+// ===================== Login =====================
 
 function validarLogin(e) {
-    e.preventDefault();
+    e.preventDefault(); // evita que el formulario se envíe/recargue la página
     let valido = true;
 
     const correo = document.getElementById("correo").value.trim();
@@ -73,6 +91,7 @@ function validarLogin(e) {
     limpiarError("correo");
     limpiarError("password");
 
+    // Correo: obligatorio y con formato válido
     if (correo === "") {
         mostrarError("correo", "El correo es obligatorio.");
         valido = false;
@@ -81,6 +100,7 @@ function validarLogin(e) {
         valido = false;
     }
 
+    // Contraseña: obligatoria y mínimo 6 caracteres
     if (password === "") {
         mostrarError("password", "La contraseña es obligatoria.");
         valido = false;
@@ -89,13 +109,14 @@ function validarLogin(e) {
         valido = false;
     }
 
+    // Si todo pasó, se simula el envío (no hay backend real conectado)
     if (valido) {
-        alert("Inicio de sesión válido. (Aquí iría la lógica de autenticación)");
+        alert("Inicio correcto");
         e.target.reset();
     }
 }
 
-//Registro
+// ===================== Registro =====================
 
 function validarRegistro(e) {
     e.preventDefault();
@@ -103,14 +124,14 @@ function validarRegistro(e) {
 
     const run = document.getElementById("run").value.trim();
     const nombre = document.getElementById("nombre").value.trim();
-    const apellidos = document.getElementById("apellidos").value.trim();
     const correo = document.getElementById("correo").value.trim();
+    const password = document.getElementById("password").value;
     const region = document.getElementById("region").value;
     const comuna = document.getElementById("comuna").value;
-    const direccion = document.getElementById("direccion").value.trim();
 
-    ["run", "nombre", "apellidos", "correo", "region", "comuna", "direccion"].forEach(limpiarError);
+    ["run", "nombre", "correo", "password", "region", "comuna"].forEach(limpiarError);
 
+    // RUN: obligatorio y debe pasar la validación completa (formato + dígito verificador)
     if (run === "") {
         mostrarError("run", "El RUN es obligatorio.");
         valido = false;
@@ -119,6 +140,7 @@ function validarRegistro(e) {
         valido = false;
     }
 
+    // Nombre completo: solo letras (con tildes y ñ) y espacios
     const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
 
     if (nombre === "") {
@@ -129,14 +151,7 @@ function validarRegistro(e) {
         valido = false;
     }
 
-    if (apellidos === "") {
-        mostrarError("apellidos", "Los apellidos son obligatorios.");
-        valido = false;
-    } else if (!soloLetras.test(apellidos)) {
-        mostrarError("apellidos", "Los apellidos solo pueden contener letras.");
-        valido = false;
-    }
-
+    // Correo: mismo formato estricto que el login
     if (correo === "") {
         mostrarError("correo", "El correo es obligatorio.");
         valido = false;
@@ -145,6 +160,16 @@ function validarRegistro(e) {
         valido = false;
     }
 
+    // Contraseña: obligatoria y mínimo 8 caracteres (según el placeholder del HTML)
+    if (password === "") {
+        mostrarError("password", "La contraseña es obligatoria.");
+        valido = false;
+    } else if (password.length < 8) {
+        mostrarError("password", "La contraseña debe tener al menos 8 caracteres.");
+        valido = false;
+    }
+
+    // Región y comuna: deben estar seleccionadas
     if (region === "") {
         mostrarError("region", "Selecciona una región.");
         valido = false;
@@ -155,20 +180,13 @@ function validarRegistro(e) {
         valido = false;
     }
 
-    if (direccion === "") {
-        mostrarError("direccion", "La dirección es obligatoria.");
-        valido = false;
-    } else if (direccion.length < 5) {
-        mostrarError("direccion", "Ingresa una dirección más completa.");
-        valido = false;
-    }
-
     if (valido) {
         alert("Registro válido. (Aquí iría el envío de datos al servidor)");
         e.target.reset();
     }
 }
 
+// ===================== Contacto =====================
 
 function validarContacto(e) {
     e.preventDefault();
@@ -180,11 +198,13 @@ function validarContacto(e) {
 
     ["nombre", "correo", "comentario"].forEach(limpiarError);
 
+    // Nombre: solo se pide que no esté vacío
     if (nombre === "") {
         mostrarError("nombre", "El nombre es obligatorio.");
         valido = false;
     }
 
+    // Correo: mismo formato estricto
     if (correo === "") {
         mostrarError("correo", "El correo es obligatorio.");
         valido = false;
@@ -193,6 +213,7 @@ function validarContacto(e) {
         valido = false;
     }
 
+    // Comentario: obligatorio y con mínimo de caracteres para evitar mensajes vacíos tipo "ok"
     if (comentario === "") {
         mostrarError("comentario", "El comentario no puede estar vacío.");
         valido = false;
@@ -207,8 +228,10 @@ function validarContacto(e) {
     }
 }
 
-//Administrador
+// ===================== Administrador =====================
 
+// Revisa si un valor de laboratorio está dentro del rango aceptable
+// según el parámetro de calidad seleccionado (basado en la tabla del caso de estudio)
 function estaEnRangoParametro(codigoParametro, valor) {
     const val = parseFloat(valor);
     if (isNaN(val)) return false;
@@ -229,8 +252,7 @@ function estaEnRangoParametro(codigoParametro, valor) {
     }
 }
 
-//Administrador registro de lote
-
+// Registro y evaluación de lotes (panel de administración)
 function validarFormLote(e) {
     e.preventDefault();
     let valido = true;
@@ -251,6 +273,7 @@ function validarFormLote(e) {
         "observaciones-lote"
     ].forEach(limpiarError);
 
+    // Código de lote: obligatorio y con un largo mínimo (ej: LOT-2026-001)
     if (codigoLote === "") {
         mostrarError("codigo-lote", "El código de lote es obligatorio.");
         valido = false;
@@ -259,6 +282,7 @@ function validarFormLote(e) {
         valido = false;
     }
 
+    // Producto y parámetro: deben estar seleccionados
     if (productoLote === "") {
         mostrarError("producto-lote", "Debe seleccionar un producto del catálogo.");
         valido = false;
@@ -269,6 +293,7 @@ function validarFormLote(e) {
         valido = false;
     }
 
+    // Valor medido: obligatorio, numérico y no negativo
     if (valorParametro === "") {
         mostrarError("valor-parametro", "Ingrese el valor medido en laboratorio.");
         valido = false;
@@ -277,12 +302,14 @@ function validarFormLote(e) {
         valido = false;
     }
 
+    // Estado de calidad: debe estar seleccionado
     if (estadoLote === "") {
         mostrarError("estado-lote", "Seleccione el estado de calidad del lote.");
         valido = false;
     }
 
-  
+    // Validación cruzada: si el valor está fuera del rango aceptable,
+    // no se puede marcar el lote como "Conforme"
     if (parametroLote !== "" && valorParametro !== "") {
         const dentroDeRango = estaEnRangoParametro(parametroLote, valorParametro);
         if (!dentroDeRango && estadoLote === "Conforme") {
@@ -291,7 +318,7 @@ function validarFormLote(e) {
         }
     }
 
-
+    // Si el lote es "No conforme", es obligatorio explicar qué se hizo al respecto
     if (estadoLote === "No conforme" && observacionesLote === "") {
         mostrarError("observaciones-lote", "Debe ingresar observaciones y acciones correctivas para lotes no conformes.");
         valido = false;
@@ -303,8 +330,7 @@ function validarFormLote(e) {
     }
 }
 
-//Administrador registro de devolución
-
+// Registro de devoluciones y desviaciones (panel de administración)
 function validarFormDevolucion(e) {
     e.preventDefault();
     let valido = true;
@@ -321,11 +347,13 @@ function validarFormDevolucion(e) {
         "motivo-devolucion"
     ].forEach(limpiarError);
 
+    // Código de lote afectado: obligatorio
     if (loteDevolucion === "") {
         mostrarError("lote-devolucion", "El código de lote afectado es obligatorio.");
         valido = false;
     }
 
+    // Cliente/empresa: obligatorio y con mínimo de caracteres
     if (clienteDevolucion === "") {
         mostrarError("cliente-devolucion", "El nombre del cliente o empresa es obligatorio.");
         valido = false;
@@ -334,6 +362,7 @@ function validarFormDevolucion(e) {
         valido = false;
     }
 
+    // Cantidad devuelta: obligatoria, numérica y mayor a 0
     if (cantidadDevolucion === "") {
         mostrarError("cantidad-devolucion", "Indique la cantidad devuelta.");
         valido = false;
@@ -342,6 +371,7 @@ function validarFormDevolucion(e) {
         valido = false;
     }
 
+    // Motivo: obligatorio y con un mínimo de caracteres para que sea explicativo
     if (motivoDevolucion === "") {
         mostrarError("motivo-devolucion", "Debe explicar el motivo o defecto detectado.");
         valido = false;

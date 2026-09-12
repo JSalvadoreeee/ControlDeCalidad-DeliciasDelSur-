@@ -27,15 +27,15 @@
         <h2>Formulario de Contacto</h2>
         <form id="form-contacto" novalidate>
             <label for="nombre">Nombre Completo:</label><br>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" name="nombre" required placeholder="Ingrese nombre y apellido">
             <span class="error-message" id="error-nombre"></span><br><br>
 
             <label for="correo">Correo Electrónico:</label><br>
-            <input type="email" id="correo" name="correo" placeholder="ejemplo@duoc.cl" required>
+            <input type="email" id="correo" name="correo" placeholder="Ingrese su correo" required>
             <span class="error-message" id="error-correo"></span><br><br>
 
             <label for="comentario">Comentario / Mensaje:</label><br>
-            <textarea id="comentario" name="comentario" rows="5" required></textarea>
+            <textarea id="comentario" name="comentario" rows="5" required placeholder="Escriba su comentario o mensaje"></textarea>
             <span class="error-message" id="error-comentario"></span><br><br>
 
             <button type="submit" class="btn">Enviar Mensaje</button>
@@ -45,5 +45,7 @@
     <footer>
         <p>&copy; 2026 Delicias del Sur S.A. - Planta San Fernando.</p>
     </footer>
+
+    <script src="js/validaciones.js"></script>
 </body>
 </html>
