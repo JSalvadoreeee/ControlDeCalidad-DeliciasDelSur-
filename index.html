@@ -8,7 +8,9 @@
 </head>
 <body>
     <header>
-        <div class="logo"><h1>Delicias del Sur</h1></div>
+        <div class="logo">
+            <h1>Delicias del Sur</h1>
+        </div>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -16,10 +18,14 @@
                 <li><a href="nosotros.html">Nosotros</a></li>
                 <li><a href="blogs.html">Blogs</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="admin.html">Administración</a></li>
             </ul>
         </nav>
         <div class="user-actions">
-            <a href="login.html">Iniciar sesión</a> | <a href="registro.html">Registrar usuario</a> | <a href="carrito.html">Carro (0)</a>
+            <a href="login.html">Iniciar sesión</a> | 
+            <a href="registro.html">Registrar usuario</a> | 
+            <a href="admin.html"><strong>Admin</strong></a> | 
+            <a href="carrito.html">Carro (0)</a>
         </div>
     </header>
 
@@ -28,12 +34,12 @@
             <h2>TIENDA ONLINE DE ALIMENTOS PROCESADOS</h2>
             <p>Más de 30 años de tradición en conservas, mermeladas, salsas y productos deshidratados de la más alta calidad en San Fernando.</p>
             <a href="productos.html" class="btn">Ver productos</a>
+            <a href="admin.html" class="btn" style="background-color: #333; margin-left: 10px;">Panel Administración</a>
         </section>
 
         <section class="productos-destacados">
             <h3>Productos Destacados</h3>
             <div class="grid-productos">
-                <!-- Frutilla -->
                 <article class="card">
                     <img src="https://osojimix.com/wp-content/uploads/2021/04/MERMELADA-DE-FRUTILLAS.jpg" alt="Mermelada de frutilla">
                     <h4>Mermelada de frutilla</h4>
@@ -42,16 +48,14 @@
                     <a href="detalle-frutilla.html" class="btn-card">Ver Detalle</a>
                 </article>
 
-                <!-- Salsa de Tomate -->
                 <article class="card">
-                    <img src="https://www.aceitesdeolivadeespana.com/wp-content/uploads/2021/05/Salsa-de-tomate-casera.jpg" alt="Salsa de tomate">
-                    <h4>Salsa de tomate</h4>
-                    <p>Salsas - 180 días vida útil</p>
-                    <span class="precio">$1.800 CLP</span>
-                    <a href="detalle-salsa.html" class="btn-card">Ver Detalle</a>
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjgHRKaiUgwqqplO0kC9Hij4rTuj5bfzwQTCDa6Zmh8XZ46UY_hNNQSul3j73ruYonNK_X3bJuDvvFCK_CC8Z_VUMps_K9qhTn4f-3dGq1PVw1_0Ky7HFJQrktCeZbkQR4NaXMdYe00e6w/s1600/LATA+DE+ARVEJAS+VOLVANDO+A++PLATO.jpg" alt="Arvejas en conserva">
+                    <h4>Arvejas en conserva</h4>
+                    <p>Conservas - 540 días vida útil</p>
+                    <span class="precio">$1.100 CLP</span>
+                    <a href="detalle-arvejas.html" class="btn-card">Ver Detalle</a>
                 </article>
 
-                <!-- Manzana Deshidratada -->
                 <article class="card">
                     <img src="https://deshidratadordealimentos.cl/wp-content/uploads/2020/05/manzanas-1024x683.jpg" alt="Manzana deshidratada">
                     <h4>Manzana deshidratada</h4>
@@ -64,7 +68,9 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Delicias del Sur S.A. - Planta San Fernando.</p>
+        <p>&copy; 2026 Delicias del Sur S.A. - Planta San Fernando, Región del O'Higgins.</p>
     </footer>
+
+    <script src="js/validaciones.js"></script>
 </body>
 </html>
