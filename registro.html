@@ -18,55 +18,84 @@
                 <li><a href="contacto.html">Contacto</a></li>
             </ul>
         </nav>
+        <div class="user-actions">
+            <a href="login.html">Iniciar sesión</a> | <a href="carro.html">Carro (0)</a>
+        </div>
     </header>
 
     <main class="container">
-        <h2>Registro de Usuario</h2>
+        <h2>Registro de Nuevo Cliente</h2>
         <form id="form-registro" novalidate>
-            <label for="run">RUN (Sin puntos ni guión, ej: 19011022K):</label><br>
-            <input type="text" id="run" name="run" required>
-            <span class="error-message" id="error-run"></span><br><br>
+            <!-- RUN / RUT -->
+            <label for="run">RUN / RUT:</label>
+            <input type="text" id="run" name="run" required placeholder="12345678-K">
+            <span class="error-message" id="error-run"></span>
 
-            <label for="nombre">Nombre:</label><br>
-            <input type="text" id="nombre" name="nombre" required>
-            <span class="error-message" id="error-nombre"></span><br><br>
+            <!-- Nombre Completo -->
+            <label for="nombre">Nombre Completo:</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Juan Pérez">
+            <span class="error-message" id="error-nombre"></span>
 
-            <label for="apellidos">Apellidos:</label><br>
-            <input type="text" id="apellidos" name="apellidos" required>
-            <span class="error-message" id="error-apellidos"></span><br><br>
+            <!-- Correo Electrónico -->
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" required placeholder="cliente@ejemplo.cl">
+            <span class="error-message" id="error-correo"></span>
 
-            <label for="correo">Correo Electrónico:</label><br>
-            <input type="email" id="correo" name="correo" required>
-            <span class="error-message" id="error-correo"></span><br><br>
+            <!-- Contraseña -->
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required minlength="8" placeholder="Mínimo 8 caracteres">
+            <span class="error-message" id="error-password"></span>
 
-            <label for="region">Región:</label><br>
-            <select id="region" name="region">
-                <option value="">Seleccione Región</option>
-                <option value="rm">Región Metropolitana de Santiago</option>
-                <option value="ohiggins">Región del Libertador General Bernardo O'Higgins</option>
+            <!-- Región -->
+            <label for="region">Región de Despacho:</label>
+            <select id="region" name="region" required>
+                <option value="">-- Seleccione una región --</option>
+                <option value="RM">Región Metropolitana de Santiago</option>
+                <option value="OHiggins">Región del Libertador General Bernardo O'Higgins</option>
             </select>
-            <span class="error-message" id="error-region"></span><br><br>
+            <span class="error-message" id="error-region"></span>
 
-            <label for="comuna">Comuna:</label><br>
-            <select id="comuna" name="comuna">
-                <option value="">Seleccione Comuna</option>
-                <option value="san_fernando">San Fernando</option>
-                <option value="san_bernardo">San Bernardo</option>
+            <!-- Comuna -->
+            <label for="comuna">Comuna:</label>
+            <select id="comuna" name="comuna" required>
+                <option value="">-- Seleccione una comuna --</option>
+                
+                <!-- Comunas Región Metropolitana -->
+                <optgroup label="Región Metropolitana">
+                    <option value="san_bernardo">San Bernardo</option>
+                    <option value="santiago">Santiago Centro</option>
+                    <option value="providencia">Providencia</option>
+                    <option value="las_condes">Las Condes</option>
+                    <option value="maipu">Maipú</option>
+                    <option value="puente_alto">Puente Alto</option>
+                    <option value="el_bosque">El Bosque</option>
+                </optgroup>
+
+                <!-- Comunas Región de O'Higgins -->
+                <optgroup label="Región de O'Higgins">
+                    <option value="san_fernando">San Fernando</option>
+                    <option value="rancagua">Rancagua</option>
+                    <option value="rengo">Rengo</option>
+                    <option value="machali">Machalí</option>
+                    <option value="chimbarongo">Chimbarongo</option>
+                    <option value="pichilemu">Pichilemu</option>
+                </optgroup>
             </select>
-            <span class="error-message" id="error-comuna"></span><br><br>
+            <span class="error-message" id="error-comuna"></span>
 
-            <label for="direccion">Dirección:</label><br>
-            <input type="text" id="direccion" name="direccion" required>
-            <span class="error-message" id="error-direccion"></span><br><br>
+            <!-- Botón de Envío -->
+            <button type="submit" class="btn">Registrar Usuario</button>
 
-            <button type="submit" class="btn">Registrarme</button>
+            <p style="margin-top: 1rem; text-align: center;">
+                ¿Ya tienes una cuenta? <a href="login.html" style="color: #8c1c13; font-weight: bold; text-decoration: underline;">Inicia sesión aquí</a>
+            </p>
         </form>
     </main>
 
     <footer>
-        <p>&copy; 2026 Delicias del Sur S.A.</p>
+        <p>&copy; 2026 Delicias del Sur S.A. - Planta San Fernando.</p>
     </footer>
-    <script src="js/regiones-comunas.js"></script>
+
     <script src="js/validaciones.js"></script>
 </body>
 </html>

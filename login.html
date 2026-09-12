@@ -18,26 +18,34 @@
                 <li><a href="contacto.html">Contacto</a></li>
             </ul>
         </nav>
+        <div class="user-actions">
+            <a href="registro.html">Registrar usuario</a>
+        </div>
     </header>
 
     <main class="container">
-        <h2>Inicio de Sesión</h2>
+        <h2>Iniciar Sesión</h2>
         <form id="form-login" novalidate>
-            <label for="correo">Correo Electrónico:</label><br>
-            <input type="email" id="correo" name="correo" required>
-            <span class="error-message" id="error-correo"></span><br><br>
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" required placeholder="ejemplo@duoc.cl">
+            <span class="error-message" id="error-correo"></span>
 
-            <label for="password">Contraseña:</label><br>
-            <input type="password" id="password" name="password" required>
-            <span class="error-message" id="error-password"></span><br><br>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required placeholder="********">
+            <span class="error-message" id="error-password"></span>
 
-            <button type="submit" class="btn">Iniciar Sesión</button>
+            <button type="submit" class="btn">Ingresar</button>
+            
+            <p style="margin-top: 1rem; text-align: center;">
+                ¿No tienes una cuenta? <a href="registro.html" style="color: #8c1c13; font-weight: bold; text-decoration: underline;">Regístrate aquí</a>
+            </p>
         </form>
     </main>
 
     <footer>
-        <p>&copy; 2026 Delicias del Sur S.A.</p>
+        <p>&copy; 2026 Delicias del Sur S.A. - Planta San Fernando.</p>
     </footer>
+
     <script src="js/validaciones.js"></script>
 </body>
 </html>
