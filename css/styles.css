@@ -356,3 +356,57 @@ footer button {
         margin: 1rem 0;
     }
 }
+
+
+
+.container-admin {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.tabla-seccion {
+    margin-top: 25px;
+}
+
+.tabla-admin {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #ffffff;
+}
+
+.tabla-admin th, 
+.tabla-admin td {
+    border: 1px solid #ddcccc;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+
+.tabla-admin th {
+    background-color: #8b0000;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.tabla-admin tr:nth-child(even) {
+    background-color: #fdf8f8;
+}
+
+
+.btn-sm {
+    padding: 6px 12px;
+    background-color: #8b0000;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.btn-sm:hover {
+    background-color: #660000;
+}
