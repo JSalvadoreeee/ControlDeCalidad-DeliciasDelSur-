@@ -1,17 +1,23 @@
-// js/validaciones.js
+
 // Validaciones de formularios: login, registro y contacto
 
 document.addEventListener("DOMContentLoaded", () => {
     const formLogin = document.getElementById("form-login");
     const formRegistro = document.getElementById("form-registro");
     const formContacto = document.getElementById("form-contacto");
+    
+    // Formularios de Administración
+    const formLote = document.getElementById("form-lote");
+    const formDevolucion = document.getElementById("form-devolucion");
 
     if (formLogin) formLogin.addEventListener("submit", validarLogin);
     if (formRegistro) formRegistro.addEventListener("submit", validarRegistro);
     if (formContacto) formContacto.addEventListener("submit", validarContacto);
+    if (formLote) formLote.addEventListener("submit", validarFormLote);
+    if (formDevolucion) formDevolucion.addEventListener("submit", validarFormDevolucion);
 });
 
-// ---------- Utilidades ----------
+//Utilidades 
 
 function mostrarError(idCampo, mensaje) {
     const span = document.getElementById("error-" + idCampo);
@@ -55,7 +61,7 @@ function validarRun(run) {
     return dv === dvEsperado;
 }
 
-// ---------- Login ----------
+//Logueo
 
 function validarLogin(e) {
     e.preventDefault();
@@ -89,7 +95,7 @@ function validarLogin(e) {
     }
 }
 
-// ---------- Registro ----------
+//Registro
 
 function validarRegistro(e) {
     e.preventDefault();
@@ -197,6 +203,155 @@ function validarContacto(e) {
 
     if (valido) {
         alert("Mensaje enviado. (Aquí iría el envío real del formulario)");
+        e.target.reset();
+    }
+}
+
+//Administrador
+
+function estaEnRangoParametro(codigoParametro, valor) {
+    const val = parseFloat(valor);
+    if (isNaN(val)) return false;
+
+    switch (codigoParametro) {
+        case "CAL001": // pH (3.0 - 3.5)
+            return val >= 3.0 && val <= 3.5;
+        case "CAL002": // Brix (65 - 70)
+            return val >= 65 && val <= 70;
+        case "CAL003": // Acidez (0.5 - 1.0)
+            return val >= 0.5 && val <= 1.0;
+        case "CAL004": // Humedad (5 - 8)
+            return val >= 5 && val <= 8;
+        case "CAL005": // Recuento Microbiológico (< 100)
+            return val >= 0 && val < 100;
+        default:
+            return true;
+    }
+}
+
+//Administrador registro de lote
+
+function validarFormLote(e) {
+    e.preventDefault();
+    let valido = true;
+
+    const codigoLote = document.getElementById("codigo-lote").value.trim();
+    const productoLote = document.getElementById("producto-lote").value;
+    const parametroLote = document.getElementById("parametro-lote").value;
+    const valorParametro = document.getElementById("valor-parametro").value.trim();
+    const estadoLote = document.getElementById("estado-lote").value;
+    const observacionesLote = document.getElementById("observaciones-lote").value.trim();
+
+    [
+        "codigo-lote",
+        "producto-lote",
+        "parametro-lote",
+        "valor-parametro",
+        "estado-lote",
+        "observaciones-lote"
+    ].forEach(limpiarError);
+
+    if (codigoLote === "") {
+        mostrarError("codigo-lote", "El código de lote es obligatorio.");
+        valido = false;
+    } else if (codigoLote.length < 5) {
+        mostrarError("codigo-lote", "Ingresa un código válido, ej: LOT-2026-001.");
+        valido = false;
+    }
+
+    if (productoLote === "") {
+        mostrarError("producto-lote", "Debe seleccionar un producto del catálogo.");
+        valido = false;
+    }
+
+    if (parametroLote === "") {
+        mostrarError("parametro-lote", "Debe seleccionar el parámetro de calidad a evaluar.");
+        valido = false;
+    }
+
+    if (valorParametro === "") {
+        mostrarError("valor-parametro", "Ingrese el valor medido en laboratorio.");
+        valido = false;
+    } else if (isNaN(valorParametro) || parseFloat(valorParametro) < 0) {
+        mostrarError("valor-parametro", "Ingrese un valor numérico válido mayor o igual a 0.");
+        valido = false;
+    }
+
+    if (estadoLote === "") {
+        mostrarError("estado-lote", "Seleccione el estado de calidad del lote.");
+        valido = false;
+    }
+
+  
+    if (parametroLote !== "" && valorParametro !== "") {
+        const dentroDeRango = estaEnRangoParametro(parametroLote, valorParametro);
+        if (!dentroDeRango && estadoLote === "Conforme") {
+            mostrarError("estado-lote", "Atención: El valor está fuera del rango de calidad aceptable, no puede registrarse como 'Conforme'.");
+            valido = false;
+        }
+    }
+
+
+    if (estadoLote === "No conforme" && observacionesLote === "") {
+        mostrarError("observaciones-lote", "Debe ingresar observaciones y acciones correctivas para lotes no conformes.");
+        valido = false;
+    }
+
+    if (valido) {
+        alert("¡Registro de Control de Calidad guardado exitosamente!");
+        e.target.reset();
+    }
+}
+
+//Administrador registro de devolución
+
+function validarFormDevolucion(e) {
+    e.preventDefault();
+    let valido = true;
+
+    const loteDevolucion = document.getElementById("lote-devolucion").value.trim();
+    const clienteDevolucion = document.getElementById("cliente-devolucion").value.trim();
+    const cantidadDevolucion = document.getElementById("cantidad-devolucion").value.trim();
+    const motivoDevolucion = document.getElementById("motivo-devolucion").value.trim();
+
+    [
+        "lote-devolucion",
+        "cliente-devolucion",
+        "cantidad-devolucion",
+        "motivo-devolucion"
+    ].forEach(limpiarError);
+
+    if (loteDevolucion === "") {
+        mostrarError("lote-devolucion", "El código de lote afectado es obligatorio.");
+        valido = false;
+    }
+
+    if (clienteDevolucion === "") {
+        mostrarError("cliente-devolucion", "El nombre del cliente o empresa es obligatorio.");
+        valido = false;
+    } else if (clienteDevolucion.length < 3) {
+        mostrarError("cliente-devolucion", "Ingrese un nombre de cliente más completo.");
+        valido = false;
+    }
+
+    if (cantidadDevolucion === "") {
+        mostrarError("cantidad-devolucion", "Indique la cantidad devuelta.");
+        valido = false;
+    } else if (parseInt(cantidadDevolucion, 10) <= 0 || isNaN(cantidadDevolucion)) {
+        mostrarError("cantidad-devolucion", "La cantidad debe ser un número entero mayor a 0.");
+        valido = false;
+    }
+
+    if (motivoDevolucion === "") {
+        mostrarError("motivo-devolucion", "Debe explicar el motivo o defecto detectado.");
+        valido = false;
+    } else if (motivoDevolucion.length < 10) {
+        mostrarError("motivo-devolucion", "Describa la causa con mayor detalle (mínimo 10 caracteres).");
+        valido = false;
+    }
+
+    if (valido) {
+        alert("¡Devolución registrada correctamente!");
         e.target.reset();
     }
 }
