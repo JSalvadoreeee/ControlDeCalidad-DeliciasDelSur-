@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delicias del Sur - Administración y Control de Calidad</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Delicias del Sur</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="blogs.html">Blogs</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="admin.html" class="active">Administración</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            <span>Bienvenido, <strong>Administrador</strong></span> | 
+            <a href="login.html">Cerrar sesión</a>
+        </div>
+    </header>
+
+    <main class="container-admin">
+        <h2>Panel de Administración y Control de Calidad</h2>
+        <p>Planta San Fernando - Gestión de lotes, trazabilidad, análisis de laboratorio y devoluciones.</p>
+
+        <!-- KPI / Tarjetas de Resumen -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <h3>150 Ton</h3>
+                <p>Producción Mensual Promedio</p>
+            </div>
+            <div class="kpi-card alerta">
+                <h3>7%</h3>
+                <p>Tasa de Devoluciones (Meta: &lt; 2%)</p>
+            </div>
+            <div class="kpi-card warning">
+                <h3>10%</h3>
+                <p>Lotes con Trazabilidad Crítica</p>
+            </div>
+            <div class="kpi-card exito">
+                <h3>93%</h3>
+                <p>Conformidad de Calidad</p>
+            </div>
+        </section>
+
+        <!-- Formularios de Gestión -->
+        <div class="admin-grid">
+            
+            <!-- Formulario 1: Control de Calidad y Registro de Lotes -->
+            <section class="form-container">
+                <h3>Registro y Evaluación de Lotes</h3>
+                <form id="form-lote" novalidate>
+                    <label for="codigo-lote">Código de Lote:</label>
+                    <input type="text" id="codigo-lote" name="codigo-lote" placeholder="Ej: LOT-2026-001" required>
+                    <span class="error-message" id="error-codigo-lote"></span>
+
+                    <label for="producto-lote">Producto:</label>
+                    <select id="producto-lote" name="producto-lote" required>
+                        <option value="">-- Seleccione un producto --</option>
+                        <option value="PR001">PR001 - Mermelada de frutilla</option>
+                        <option value="PR002">PR002 - Mermelada de durazno</option>
+                        <option value="PR003">PR003 - Salsa de tomate</option>
+                        <option value="PR004">PR004 - Choclo en conserva</option>
+                        <option value="PR005">PR005 - Arvejas en conserva</option>
+                        <option value="PR006">PR006 - Manzana deshidratada</option>
+                    </select>
+                    <span class="error-message" id="error-producto-lote"></span>
+
+                    <label for="parametro-lote">Parámetro Evaluado:</label>
+                    <select id="parametro-lote" name="parametro-lote" required>
+                        <option value="">-- Seleccione un parámetro --</option>
+                        <option value="CAL001">CAL001 - pH (3.0 - 3.5)</option>
+                        <option value="CAL002">CAL002 - Brix (65 - 70 °Brix)</option>
+                        <option value="CAL003">CAL003 - Acidez (0.5 - 1.0 %)</option>
+                        <option value="CAL004">CAL004 - Humedad (5 - 8 %)</option>
+                        <option value="CAL005">CAL005 - Recuento Microbiológico (&lt; 100 UFC/g)</option>
+                    </select>
+                    <span class="error-message" id="error-parametro-lote"></span>
+
+                    <label for="valor-parametro">Valor Medido en Laboratorio:</label>
+                    <input type="number" step="0.01" id="valor-parametro" name="valor-parametro" placeholder="Ej: 3.2" required>
+                    <span class="error-message" id="error-valor-parametro"></span>
+
+                    <label for="estado-lote">Estado de Calidad:</label>
+                    <select id="estado-lote" name="estado-lote" required>
+                        <option value="">-- Seleccione un estado --</option>
+                        <option value="Muestreo">Muestreo</option>
+                        <option value="En análisis">En análisis</option>
+                        <option value="Conforme">Conforme</option>
+                        <option value="No conforme">No conforme</option>
+                        <option value="Corregido">Corregido</option>
+                    </select>
+                    <span class="error-message" id="error-estado-lote"></span>
+
+                    <label for="observaciones-lote">Observaciones / Medidas Correctivas:</label>
+                    <textarea id="observaciones-lote" name="observaciones-lote" rows="3" placeholder="Detalle observaciones o acciones tomadas..."></textarea>
+                    <span class="error-message" id="error-observaciones-lote"></span>
+
+                    <button type="submit" class="btn">Guardar Registro de Calidad</button>
+                </form>
+            </section>
+
+            <!-- Formulario 2: Reporte de Devolución -->
+            <section class="form-container">
+                <h3>Registro de Devoluciones y Desviaciones</h3>
+                <form id="form-devolucion" novalidate>
+                    <label for="lote-devolucion">Código de Lote Afectado:</label>
+                    <input type="text" id="lote-devolucion" name="lote-devolucion" placeholder="Ej: LOT-2026-001" required>
+                    <span class="error-message" id="error-lote-devolucion"></span>
+
+                    <label for="cliente-devolucion">Nombre de Cliente / Empresa:</label>
+                    <input type="text" id="cliente-devolucion" name="cliente-devolucion" placeholder="Ej: Distribuidora del Centro S.A." required>
+                    <span class="error-message" id="error-cliente-devolucion"></span>
+
+                    <label for="cantidad-devolucion">Unidades o Cajas Devueltas:</label>
+                    <input type="number" id="cantidad-devolucion" name="cantidad-devolucion" min="1" placeholder="Ej: 50" required>
+                    <span class="error-message" id="error-cantidad-devolucion"></span>
+
+                    <label for="motivo-devolucion">Motivo de la Devolución / Defecto:</label>
+                    <textarea id="motivo-devolucion" name="motivo-devolucion" rows="4" placeholder="Describa el problema detectado..." required></textarea>
+                    <span class="error-message" id="error-motivo-devolucion"></span>
+
+                    <button type="submit" class="btn">Registrar Devolución</button>
+                </form>
+            </section>
+        </div>
+
+        <!-- Tabla 1: Catálogo de Productos y Stock -->
+        <section class="tabla-seccion">
+            <h3>Catálogo de Productos y Stock Actual</h3>
+            <div class="tabla-responsive">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Vida Útil</th>
+                            <th>Precio (CLP)</th>
+                            <th>Stock Actual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PR001</td>
+                            <td>Mermelada de frutilla</td>
+                            <td>Conservas</td>
+                            <td>365 días</td>
+                            <td>$2.500</td>
+                            <td>5.000 un.</td>
+                        </tr>
+                        <tr>
+                            <td>PR002</td>
+                            <td>Mermelada de durazno</td>
+                            <td>Conservas</td>
+                            <td>365 días</td>
+                            <td>$2.300</td>
+                            <td>4.500 un.</td>
+                        </tr>
+                        <tr>
+                            <td>PR003</td>
+                            <td>Salsa de tomate</td>
+                            <td>Salsas</td>
+                            <td>180 días</td>
+                            <td>$1.800</td>
+                            <td>8.000 un.</td>
+                        </tr>
+                        <tr>
+                            <td>PR004</td>
+                            <td>Choclo en conserva</td>
+                            <td>Conservas</td>
+                            <td>540 días</td>
+                            <td>$1.200</td>
+                            <td>6.000 un.</td>
+                        </tr>
+                        <tr>
+                            <td>PR005</td>
+                            <td>Arvejas en conserva</td>
+                            <td>Conservas</td>
+                            <td>540 días</td>
+                            <td>$1.100</td>
+                            <td>7.000 un.</td>
+                        </tr>
+                        <tr>
+                            <td>PR006</td>
+                            <td>Manzana deshidratada</td>
+                            <td>Deshidratados</td>
+                            <td>180 días</td>
+                            <td>$3.500</td>
+                            <td>2.000 un.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Tabla 2: Parámetros Estándar de Calidad -->
+        <section class="tabla-seccion">
+            <h3>Parámetros Estándar de Calidad</h3>
+            <div class="tabla-responsive">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Parámetro</th>
+                            <th>Producto Asociado</th>
+                            <th>Rango Aceptable</th>
+                            <th>Unidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CAL001</td>
+                            <td>pH</td>
+                            <td>Mermelada</td>
+                            <td>3.0 - 3.5</td>
+                            <td>pH</td>
+                        </tr>
+                        <tr>
+                            <td>CAL002</td>
+                            <td>Brix</td>
+                            <td>Mermelada</td>
+                            <td>65 - 70</td>
+                            <td>°Brix</td>
+                        </tr>
+                        <tr>
+                            <td>CAL003</td>
+                            <td>Acidez</td>
+                            <td>Salsa de tomate</td>
+                            <td>0.5 - 1.0</td>
+                            <td>%</td>
+                        </tr>
+                        <tr>
+                            <td>CAL004</td>
+                            <td>Humedad</td>
+                            <td>Deshidratados</td>
+                            <td>5 - 8</td>
+                            <td>%</td>
+                        </tr>
+                        <tr>
+                            <td>CAL005</td>
+                            <td>Recuento microbiológico</td>
+                            <td>Todos</td>
+                            <td>&lt; 100</td>
+                            <td>UFC/g</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Tabla 3: Histórico Reciente de Lotes y Estado -->
+        <section class="tabla-seccion">
+            <h3>Estado Reciente de Lotes de Producción</h3>
+            <div class="tabla-responsive">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>N° Lote</th>
+                            <th>Producto</th>
+                            <th>Muestreo</th>
+                            <th>Avance Análisis</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>LOT-2026-089</td>
+                            <td>Mermelada de frutilla</td>
+                            <td>Completado</td>
+                            <td>pH: 3.2 | Brix: 67</td>
+                            <td><span class="badge badge-conforme">Conforme</span></td>
+                            <td><button class="btn-sm">Liberar Lote</button></td>
+                        </tr>
+                        <tr>
+                            <td>LOT-2026-090</td>
+                            <td>Salsa de tomate</td>
+                            <td>Completado</td>
+                            <td>Acidez: 1.4 (Fuera de rango)</td>
+                            <td><span class="badge badge-noconforme">No conforme</span></td>
+                            <td><button class="btn-sm alert">Acción Correctiva</button></td>
+                        </tr>
+                        <tr>
+                            <td>LOT-2026-091</td>
+                            <td>Manzana deshidratada</td>
+                            <td>En proceso</td>
+                            <td>Humedad: 6%</td>
+                            <td><span class="badge badge-analisis">En análisis</span></td>
+                            <td><button class="btn-sm">Ver Avance</button></td>
+                        </tr>
+                        <tr>
+                            <td>LOT-2026-092</td>
+                            <td>Arvejas en conserva</td>
+                            <td>Pendiente</td>
+                            <td>Sin datos</td>
+                            <td><span class="badge badge-muestreo">Muestreo</span></td>
+                            <td><button class="btn-sm">Registrar</button></td>
+                        </tr>
+                        <tr>
+                            <td>LOT-2026-088</td>
+                            <td>Choclo en conserva</td>
+                            <td>Completado</td>
+                            <td>Recorregido en autoclave</td>
+                            <td><span class="badge badge-corregido">Corregido</span></td>
+                            <td><button class="btn-sm">Liberar Lote</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Delicias del Sur S.A. - Planta San Fernando, Región del O'Higgins.</p>
+    </footer>
+
+    <script src="js/validaciones.js"></script>
+</body>
+</html>
