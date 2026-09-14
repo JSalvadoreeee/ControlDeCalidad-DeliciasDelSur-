@@ -1,13 +1,15 @@
-
-
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     const btnAgregar = document.getElementById("btn-agregar");
     if (btnAgregar) {
         btnAgregar.addEventListener("click", agregarAlCarrito);
     }
 
-    // Si estamos en carrito.html, mostrar el contenido guardado
+    const btnPagar = document.getElementById("btn-pagar");
+    if (btnPagar) {
+        btnPagar.addEventListener("click", procesarPago);
+    }
+
     if (document.getElementById("lista-carrito")) {
         renderizarCarrito();
     }
@@ -83,6 +85,22 @@ function renderizarCarrito() {
 
     contenedor.innerHTML = html;
     if (totalSpan) totalSpan.textContent = total.toLocaleString("es-CL");
+}
+
+function procesarPago() {
+    const carrito = obtenerCarrito();
+
+    if (carrito.length === 0) {
+        alert("Tu carrito está vacío");
+        return;
+    }
+
+    const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+    alert(`¡Gracias por tu compra! Tu pedido por un total de $${total.toLocaleString("es-CL")} CLP ha sido procesado exitosamente.`);
+
+    localStorage.removeItem("carrito");
+    renderizarCarrito();
+    actualizarContadorCarrito();
 }
 
 function actualizarContadorCarrito() {
